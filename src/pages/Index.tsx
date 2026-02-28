@@ -62,7 +62,7 @@ const Index = () => (
           transition={{ delay: 0.4, duration: 0.5 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <Link to="/portfolio" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary text-secondary-foreground font-semibold hover:opacity-90 transition-opacity">
+          <Link to="/join-trainer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary text-secondary-foreground font-semibold hover:opacity-90 transition-opacity">
             <Dumbbell size={18} /> Join as a Trainer
           </Link>
           <Link to="/services" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-foreground text-primary font-semibold hover:opacity-90 transition-opacity">
