@@ -12,8 +12,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/components/ui/sonner";
 import {
   ArrowLeft, ArrowRight, Upload, ShieldCheck, Dumbbell,
-  User, DollarSign, FileCheck, CheckCircle2
+  User, IndianRupee, FileCheck, CheckCircle2
 } from "lucide-react";
+import { trainerStore } from "@/lib/trainerStore";
+import { useNavigate } from "react-router-dom";
 
 type FormData = Record<string, string | string[] | boolean>;
 
@@ -21,7 +23,7 @@ const steps = [
   { title: "Personal Info", icon: User },
   { title: "Professional Background", icon: Dumbbell },
   { title: "Certifications & ID", icon: ShieldCheck },
-  { title: "Pricing & Availability", icon: DollarSign },
+  { title: "Pricing & Availability", icon: IndianRupee },
   { title: "Review & Submit", icon: FileCheck },
 ];
 
@@ -87,8 +89,11 @@ const TrainerRegistration = () => {
     return true;
   };
 
+  const navigate = useNavigate();
   const handleSubmit = () => {
+    trainerStore.addTrainer(form);
     toast.success("Registration submitted! Our AI verification will review your credentials within 24-48 hours.");
+    setTimeout(() => navigate("/find-trainer"), 2000);
   };
 
   const fadeVariant = {
@@ -346,8 +351,8 @@ const TrainerRegistration = () => {
                         <SelectContent>
                           <SelectItem value="drivers-license">Driver's License</SelectItem>
                           <SelectItem value="passport">Passport</SelectItem>
-                          <SelectItem value="state-id">State ID</SelectItem>
-                          <SelectItem value="military-id">Military ID</SelectItem>
+                          <SelectItem value="pan-card">PAN Card</SelectItem>
+                          <SelectItem value="aadhar-card">Aadhar Card</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -380,17 +385,17 @@ const TrainerRegistration = () => {
                   <h2 className="text-2xl font-display font-bold">Pricing & Availability</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div className="space-y-2">
-                      <Label>Per-Session Rate (USD) *</Label>
+                      <Label>Per-Session Rate (₹ INR) *</Label>
                       <div className="relative">
-                        <DollarSign size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                        <Input type="number" placeholder="75" className="pl-9" value={form.sessionRate as string} onChange={(e) => update("sessionRate", e.target.value)} />
+                        <IndianRupee size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                        <Input type="number" placeholder="1500" className="pl-9" value={form.sessionRate as string} onChange={(e) => update("sessionRate", e.target.value)} />
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label>Package Rate (10 sessions, USD)</Label>
+                      <Label>Package Rate (10 sessions, ₹ INR)</Label>
                       <div className="relative">
-                        <DollarSign size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                        <Input type="number" placeholder="650" className="pl-9" value={form.packageRate as string} onChange={(e) => update("packageRate", e.target.value)} />
+                        <IndianRupee size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                        <Input type="number" placeholder="12000" className="pl-9" value={form.packageRate as string} onChange={(e) => update("packageRate", e.target.value)} />
                       </div>
                     </div>
                     <div className="space-y-2">
@@ -474,8 +479,8 @@ const TrainerRegistration = () => {
                       { label: "Cert Document", value: form.certFile || "Not uploaded" },
                       { label: "Gov ID Type", value: form.govIdType },
                       { label: "Gov ID Document", value: form.govIdFile || "Not uploaded" },
-                      { label: "Session Rate", value: form.sessionRate ? `$${form.sessionRate}` : "" },
-                      { label: "Package Rate (10)", value: form.packageRate ? `$${form.packageRate}` : "" },
+                      { label: "Session Rate", value: form.sessionRate ? `₹${form.sessionRate}` : "" },
+                      { label: "Package Rate (10)", value: form.packageRate ? `₹${form.packageRate}` : "" },
                       { label: "Session Duration", value: form.sessionDuration ? `${form.sessionDuration} min` : "" },
                       { label: "Available Days", value: (form.availableDays as string[]).join(", ") },
                       { label: "Travel to Clients", value: form.travelWilling },

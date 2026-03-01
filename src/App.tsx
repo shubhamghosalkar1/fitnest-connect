@@ -12,6 +12,7 @@ import Portfolio from "./pages/Portfolio";
 import Services from "./pages/Services";
 import Admin from "./pages/Admin";
 import TrainerRegistration from "./pages/TrainerRegistration";
+import FindTrainer from "./pages/FindTrainer";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/services" element={<Services />} />
             <Route path="/join-trainer" element={<TrainerRegistration />} />
+            <Route path="/find-trainer" element={<FindTrainer />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
