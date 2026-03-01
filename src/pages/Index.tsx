@@ -65,7 +65,7 @@ const Index = () => (
           <Link to="/join-trainer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary text-secondary-foreground font-semibold hover:opacity-90 transition-opacity">
             <Dumbbell size={18} /> Join as a Trainer
           </Link>
-          <Link to="/services" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-foreground text-primary font-semibold hover:opacity-90 transition-opacity">
+          <Link to="/find-trainer" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary-foreground text-primary font-semibold hover:opacity-90 transition-opacity">
             <Users size={18} /> Find a Trainer
           </Link>
           <Link to="/services" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-primary-foreground/30 text-primary-foreground font-semibold hover:bg-primary-foreground/10 transition-colors">
