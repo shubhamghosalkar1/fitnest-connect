@@ -14,16 +14,216 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      gyms: {
+        Row: {
+          city: string
+          closing_time: string
+          created_at: string
+          current_offers: string | null
+          description: string | null
+          email: string
+          equipment_list: string | null
+          facilities: string[]
+          full_address: string
+          gym_name: string
+          id: string
+          membership_monthly: string | null
+          membership_quarterly: string | null
+          membership_yearly: string | null
+          opening_time: string
+          owner_name: string
+          phone: string
+          social_media: string | null
+          state: string
+          status: string
+          trainer_count: string | null
+          working_days: string[]
+        }
+        Insert: {
+          city: string
+          closing_time: string
+          created_at?: string
+          current_offers?: string | null
+          description?: string | null
+          email: string
+          equipment_list?: string | null
+          facilities?: string[]
+          full_address: string
+          gym_name: string
+          id?: string
+          membership_monthly?: string | null
+          membership_quarterly?: string | null
+          membership_yearly?: string | null
+          opening_time: string
+          owner_name: string
+          phone: string
+          social_media?: string | null
+          state: string
+          status?: string
+          trainer_count?: string | null
+          working_days?: string[]
+        }
+        Update: {
+          city?: string
+          closing_time?: string
+          created_at?: string
+          current_offers?: string | null
+          description?: string | null
+          email?: string
+          equipment_list?: string | null
+          facilities?: string[]
+          full_address?: string
+          gym_name?: string
+          id?: string
+          membership_monthly?: string | null
+          membership_quarterly?: string | null
+          membership_yearly?: string | null
+          opening_time?: string
+          owner_name?: string
+          phone?: string
+          social_media?: string | null
+          state?: string
+          status?: string
+          trainer_count?: string | null
+          working_days?: string[]
+        }
+        Relationships: []
+      }
+      trainers: {
+        Row: {
+          available_days: string[] | null
+          bio: string | null
+          cert_file: string | null
+          cert_issuer: string | null
+          cert_name: string | null
+          cert_status: string
+          city: string
+          client_types: string | null
+          cpr_certified: string | null
+          created_at: string
+          date_of_birth: string | null
+          email: string
+          gender: string | null
+          gov_id_file: string | null
+          gov_id_type: string | null
+          id: string
+          id_status: string
+          languages: string | null
+          max_clients: string | null
+          name: string
+          online_training: string | null
+          package_rate: string | null
+          phone: string
+          session_duration: string | null
+          session_rate: string | null
+          social_media: string | null
+          specialties: string[] | null
+          state: string
+          training_style: string | null
+          travel_willing: string | null
+          years_experience: string | null
+        }
+        Insert: {
+          available_days?: string[] | null
+          bio?: string | null
+          cert_file?: string | null
+          cert_issuer?: string | null
+          cert_name?: string | null
+          cert_status?: string
+          city: string
+          client_types?: string | null
+          cpr_certified?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email: string
+          gender?: string | null
+          gov_id_file?: string | null
+          gov_id_type?: string | null
+          id?: string
+          id_status?: string
+          languages?: string | null
+          max_clients?: string | null
+          name: string
+          online_training?: string | null
+          package_rate?: string | null
+          phone: string
+          session_duration?: string | null
+          session_rate?: string | null
+          social_media?: string | null
+          specialties?: string[] | null
+          state: string
+          training_style?: string | null
+          travel_willing?: string | null
+          years_experience?: string | null
+        }
+        Update: {
+          available_days?: string[] | null
+          bio?: string | null
+          cert_file?: string | null
+          cert_issuer?: string | null
+          cert_name?: string | null
+          cert_status?: string
+          city?: string
+          client_types?: string | null
+          cpr_certified?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          email?: string
+          gender?: string | null
+          gov_id_file?: string | null
+          gov_id_type?: string | null
+          id?: string
+          id_status?: string
+          languages?: string | null
+          max_clients?: string | null
+          name?: string
+          online_training?: string | null
+          package_rate?: string | null
+          phone?: string
+          session_duration?: string | null
+          session_rate?: string | null
+          social_media?: string | null
+          specialties?: string[] | null
+          state?: string
+          training_style?: string | null
+          travel_willing?: string | null
+          years_experience?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +350,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
