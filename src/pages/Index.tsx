@@ -71,6 +71,9 @@ const Index = () => (
           <Link to="/services" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-primary-foreground/30 text-primary-foreground font-semibold hover:bg-primary-foreground/10 transition-colors">
             <Building2 size={18} /> For Gyms
           </Link>
+          <Link to="/register-gym" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-card text-foreground font-semibold hover:opacity-90 transition-opacity">
+            <Building2 size={18} /> Register Gym
+          </Link>
         </motion.div>
       </div>
     </section>
