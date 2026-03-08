@@ -13,7 +13,7 @@ import { toast } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Building2, ArrowLeft, ArrowRight, CheckCircle2,
-  MapPin, Clock, IndianRupee, Dumbbell, Users
+  MapPin, IndianRupee
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 
