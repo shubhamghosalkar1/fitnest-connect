@@ -1,21 +1,24 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
 import logo from "@/assets/fitnest-logo.jpeg";
 
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/services", label: "Services" },
+  { to: "/find-trainer", label: "Find Trainer" },
+  { to: "/find-gym", label: "Find Gym" },
   { to: "/portfolio", label: "Portfolio" },
-  { to: "/dashboard", label: "Dashboard" },
   { to: "/contact", label: "Contact" },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const { user, isAdmin, signOut } = useAuth();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-card/90 backdrop-blur-md border-b border-border">
@@ -43,12 +46,30 @@ const Navbar = () => {
               {l.label}
             </Link>
           ))}
-          <Link
-            to="/admin"
-            className="ml-2 px-4 py-2 rounded-lg bg-secondary text-secondary-foreground text-sm font-semibold transition-colors hover:opacity-90"
-          >
-            Admin
-          </Link>
+          {user && isAdmin ? (
+            <div className="flex items-center gap-2 ml-2">
+              <Link
+                to="/admin"
+                className="px-4 py-2 rounded-lg bg-secondary text-secondary-foreground text-sm font-semibold transition-colors hover:opacity-90"
+              >
+                Admin
+              </Link>
+              <button
+                onClick={() => signOut()}
+                className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                title="Sign out"
+              >
+                <LogOut size={16} />
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/admin-login"
+              className="ml-2 px-4 py-2 rounded-lg bg-secondary text-secondary-foreground text-sm font-semibold transition-colors hover:opacity-90"
+            >
+              Admin
+            </Link>
+          )}
         </div>
 
         {/* Mobile toggle */}
@@ -82,12 +103,20 @@ const Navbar = () => {
                 </Link>
               ))}
               <Link
-                to="/admin"
+                to={user && isAdmin ? "/admin" : "/admin-login"}
                 onClick={() => setOpen(false)}
                 className="block px-3 py-2 rounded-md text-sm font-semibold text-secondary"
               >
                 Admin
               </Link>
+              {user && isAdmin && (
+                <button
+                  onClick={() => { signOut(); setOpen(false); }}
+                  className="block w-full text-left px-3 py-2 rounded-md text-sm font-medium text-destructive"
+                >
+                  Sign Out
+                </button>
+              )}
             </div>
           </motion.div>
         )}
