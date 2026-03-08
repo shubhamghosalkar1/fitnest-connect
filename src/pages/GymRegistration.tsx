@@ -21,7 +21,7 @@ const steps = [
   { title: "Gym Details", icon: Building2 },
   { title: "Location & Timings", icon: MapPin },
   { title: "Membership & Offers", icon: IndianRupee },
-  { title: "Facilities & Staff", icon: Dumbbell },
+  { title: "Facilities & Staff", icon: Building2 },
   { title: "Review & Submit", icon: CheckCircle2 },
 ];
 
