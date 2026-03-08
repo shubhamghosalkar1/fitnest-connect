@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -90,7 +91,41 @@ const TrainerRegistration = () => {
   };
 
   const navigate = useNavigate();
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const { error } = await supabase.from("trainers").insert({
+      name: form.fullName as string,
+      email: form.email as string,
+      phone: form.phone as string,
+      city: form.city as string,
+      state: form.state as string,
+      gender: form.gender as string || null,
+      date_of_birth: form.dateOfBirth as string || null,
+      years_experience: form.yearsExperience as string || null,
+      specialties: (form.specialties as string[]) || [],
+      training_style: form.trainingStyle as string || null,
+      bio: form.bio as string || null,
+      client_types: form.clientTypes as string || null,
+      max_clients: form.maxClients as string || null,
+      languages: form.languages as string || null,
+      social_media: form.socialMedia as string || null,
+      cert_name: form.certName as string || null,
+      cert_issuer: form.certIssuer as string || null,
+      cert_file: form.certFile as string || null,
+      gov_id_type: form.govIdType as string || null,
+      gov_id_file: form.govIdFile as string || null,
+      cpr_certified: form.cprCertified as string || null,
+      session_rate: form.sessionRate as string || null,
+      package_rate: form.packageRate as string || null,
+      session_duration: form.sessionDuration as string || null,
+      available_days: (form.availableDays as string[]) || [],
+      travel_willing: form.travelWilling as string || null,
+      online_training: form.onlineTraining as string || null,
+    });
+    if (error) {
+      toast.error("Registration failed. Please try again.");
+      console.error(error);
+      return;
+    }
     trainerStore.addTrainer(form);
     toast.success("Registration submitted! Our AI verification will review your credentials within 24-48 hours.");
     setTimeout(() => navigate("/find-trainer"), 2000);
