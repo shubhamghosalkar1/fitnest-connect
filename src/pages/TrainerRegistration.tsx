@@ -128,7 +128,7 @@ const TrainerRegistration = () => {
     }
     trainerStore.addTrainer(form);
     toast.success("Registration submitted! Our AI verification will review your credentials within 24-48 hours.");
-    setTimeout(() => navigate("/find-trainer"), 2000);
+    setTimeout(() => navigate("/portfolio", { state: { trainerData: form } }), 2000);
   };
 
   const fadeVariant = {
