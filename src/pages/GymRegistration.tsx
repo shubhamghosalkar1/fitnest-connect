@@ -108,7 +108,7 @@ const GymRegistration = () => {
       <section className="pt-8 pb-4 section-padding" style={{ background: "var(--gradient-hero)" }}>
         <div className="container-tight text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-primary-foreground">
+            <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-foreground">
               Register Your Gym on FitNest
             </h1>
             <p className="mt-2 text-primary-foreground/80 max-w-lg mx-auto">
