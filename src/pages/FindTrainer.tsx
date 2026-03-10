@@ -44,7 +44,7 @@ const FindTrainer = () => {
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl sm:text-4xl font-display font-extrabold text-foreground">
             Find Your Perfect Trainer
           </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mt-2 text-primary-foreground/80 max-w-lg mx-auto">
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mt-2 text-foreground/80 max-w-lg mx-auto">
             Browse verified fitness professionals ready to help you achieve your goals.
           </motion.p>
         </div>

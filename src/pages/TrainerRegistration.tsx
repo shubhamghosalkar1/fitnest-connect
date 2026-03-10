@@ -148,7 +148,7 @@ const TrainerRegistration = () => {
             <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-foreground">
               Join FitNest as a Trainer
             </h1>
-            <p className="mt-2 text-primary-foreground/80 max-w-lg mx-auto">
+            <p className="mt-2 text-foreground/80 max-w-lg mx-auto">
               Complete your profile to get verified and start connecting with clients.
             </p>
           </motion.div>

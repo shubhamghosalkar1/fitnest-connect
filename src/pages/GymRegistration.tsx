@@ -111,7 +111,7 @@ const GymRegistration = () => {
             <h1 className="text-3xl sm:text-4xl font-display font-extrabold text-foreground">
               Register Your Gym on FitNest
             </h1>
-            <p className="mt-2 text-primary-foreground/80 max-w-lg mx-auto">
+            <p className="mt-2 text-foreground/80 max-w-lg mx-auto">
               List your gym to reach more clients and connect with certified trainers.
             </p>
           </motion.div>

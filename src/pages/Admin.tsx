@@ -141,7 +141,7 @@ const Admin = () => {
             {[
               { icon: Users, label: "Total Trainers", value: stats.totalTrainers, color: "text-primary" },
               { icon: CheckCircle2, label: "Verified", value: stats.verifiedTrainers, color: "text-secondary" },
-              { icon: Clock, label: "Pending", value: stats.pendingTrainers, color: "text-yellow-600" },
+              { icon: Clock, label: "Pending", value: stats.pendingTrainers, color: "text-primary" },
               { icon: Building2, label: "Gyms", value: stats.totalGyms, color: "text-primary" },
             ].map(s => (
               <div key={s.label} className="glass-card p-5 hover-lift">
