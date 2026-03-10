@@ -17,10 +17,10 @@ import { toast } from "@/components/ui/sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const statusConfig = {
-  pending: { icon: Clock, label: "Pending", className: "bg-yellow-100 text-yellow-700" },
-  verified: { icon: CheckCircle2, label: "Verified", className: "bg-green-100 text-green-700" },
-  rejected: { icon: XCircle, label: "Rejected", className: "bg-red-100 text-red-700" },
-  approved: { icon: CheckCircle2, label: "Approved", className: "bg-green-100 text-green-700" },
+  pending: { icon: Clock, label: "Pending", className: "bg-primary/15 text-primary" },
+  verified: { icon: CheckCircle2, label: "Verified", className: "bg-secondary/15 text-secondary" },
+  rejected: { icon: XCircle, label: "Rejected", className: "bg-destructive/15 text-destructive" },
+  approved: { icon: CheckCircle2, label: "Approved", className: "bg-secondary/15 text-secondary" },
 };
 
 const StatusBadge = ({ status }: { status: string }) => {
@@ -124,10 +124,10 @@ const Admin = () => {
       <section className="section-padding pb-8" style={{ background: "var(--gradient-hero)" }}>
         <div className="container-tight flex items-center justify-between">
           <div>
-            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl sm:text-4xl font-display font-extrabold text-primary-foreground">
+            <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl sm:text-4xl font-display font-extrabold text-foreground">
               Admin Panel
             </motion.h1>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mt-2 text-primary-foreground/80">
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mt-2 text-foreground/80">
               Manage trainers, gyms, and platform operations.
             </motion.p>
           </div>
@@ -141,7 +141,7 @@ const Admin = () => {
             {[
               { icon: Users, label: "Total Trainers", value: stats.totalTrainers, color: "text-primary" },
               { icon: CheckCircle2, label: "Verified", value: stats.verifiedTrainers, color: "text-secondary" },
-              { icon: Clock, label: "Pending", value: stats.pendingTrainers, color: "text-yellow-600" },
+              { icon: Clock, label: "Pending", value: stats.pendingTrainers, color: "text-primary" },
               { icon: Building2, label: "Gyms", value: stats.totalGyms, color: "text-primary" },
             ].map(s => (
               <div key={s.label} className="glass-card p-5 hover-lift">

@@ -55,10 +55,10 @@ const Services = () => (
   <div>
     <section className="section-padding" style={{ background: "var(--gradient-hero)" }}>
       <div className="container-tight text-center">
-        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl sm:text-5xl font-display font-extrabold text-primary-foreground">
+        <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-4xl sm:text-5xl font-display font-extrabold text-foreground">
           Our Services
         </motion.h1>
-        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-4 text-primary-foreground/80 text-lg max-w-2xl mx-auto">
+        <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="mt-4 text-foreground/80 text-lg max-w-2xl mx-auto">
           Tools and services designed for every stakeholder in the fitness ecosystem.
         </motion.p>
       </div>
