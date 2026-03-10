@@ -116,13 +116,13 @@ const Chatbot = () => {
             {/* Header */}
             <div className="px-4 py-3 border-b border-border flex items-center justify-between" style={{ background: "var(--gradient-hero)" }}>
               <div className="flex items-center gap-2">
-                <Bot size={20} className="text-primary-foreground" />
+                <Bot size={20} className="text-foreground" />
                 <div>
-                  <div className="text-sm font-bold text-primary-foreground">FitNest AI</div>
-                  <div className="text-[10px] text-primary-foreground/70">Online • Ask me anything</div>
+                  <div className="text-sm font-bold text-foreground">FitNest AI</div>
+                  <div className="text-[10px] text-foreground/70">Online • Ask me anything</div>
                 </div>
               </div>
-              <button onClick={() => setOpen(false)} className="text-primary-foreground/70 hover:text-primary-foreground">
+              <button onClick={() => setOpen(false)} className="text-foreground/70 hover:text-foreground">
                 <X size={18} />
               </button>
             </div>
