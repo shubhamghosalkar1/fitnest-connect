@@ -17,10 +17,10 @@ import { toast } from "@/components/ui/sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const statusConfig = {
-  pending: { icon: Clock, label: "Pending", className: "bg-yellow-100 text-yellow-700" },
-  verified: { icon: CheckCircle2, label: "Verified", className: "bg-green-100 text-green-700" },
-  rejected: { icon: XCircle, label: "Rejected", className: "bg-red-100 text-red-700" },
-  approved: { icon: CheckCircle2, label: "Approved", className: "bg-green-100 text-green-700" },
+  pending: { icon: Clock, label: "Pending", className: "bg-primary/15 text-primary" },
+  verified: { icon: CheckCircle2, label: "Verified", className: "bg-secondary/15 text-secondary" },
+  rejected: { icon: XCircle, label: "Rejected", className: "bg-destructive/15 text-destructive" },
+  approved: { icon: CheckCircle2, label: "Approved", className: "bg-secondary/15 text-secondary" },
 };
 
 const StatusBadge = ({ status }: { status: string }) => {
