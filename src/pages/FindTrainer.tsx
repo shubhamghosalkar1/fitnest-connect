@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useTrainers, getIdTypeLabel } from "@/lib/trainerStore";
-import { Search, MapPin, Star, Dumbbell, CheckCircle2, IndianRupee, Filter } from "lucide-react";
+import { useTrainers } from "@/lib/trainerStore";
+import { Search, MapPin, Star, Dumbbell, CheckCircle2, IndianRupee } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import TrainerProfileDialog from "@/components/TrainerProfileDialog";
+import BookSessionDialog from "@/components/BookSessionDialog";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -21,8 +23,9 @@ const FindTrainer = () => {
   const [search, setSearch] = useState("");
   const [specialty, setSpecialty] = useState("all");
   const [city, setCity] = useState("all");
+  const [profileTrainer, setProfileTrainer] = useState<any>(null);
+  const [bookTrainer, setBookTrainer] = useState<any>(null);
 
-  // Only show fully verified trainers
   const verified = trainers.filter((t) => t.certStatus === "verified" && t.idStatus === "verified");
 
   const allSpecialties = [...new Set(verified.flatMap((t) => t.specialties))].sort();
@@ -38,7 +41,6 @@ const FindTrainer = () => {
 
   return (
     <div>
-      {/* Hero */}
       <section className="section-padding pb-8" style={{ background: "var(--gradient-hero)" }}>
         <div className="container-tight text-center">
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-3xl sm:text-4xl font-display font-extrabold text-foreground">
@@ -52,42 +54,27 @@ const FindTrainer = () => {
 
       <section className="section-padding pt-8">
         <div className="container-tight">
-          {/* Filters */}
           <div className="glass-card p-4 mb-8 flex flex-col sm:flex-row gap-4 items-center">
             <div className="relative flex-1 w-full">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by name or specialty..."
-                className="pl-10"
-              />
+              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by name or specialty..." className="pl-10" />
             </div>
             <Select value={specialty} onValueChange={setSpecialty}>
-              <SelectTrigger className="w-full sm:w-48">
-                <SelectValue placeholder="Specialty" />
-              </SelectTrigger>
+              <SelectTrigger className="w-full sm:w-48"><SelectValue placeholder="Specialty" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Specialties</SelectItem>
-                {allSpecialties.map((s) => (
-                  <SelectItem key={s} value={s}>{s}</SelectItem>
-                ))}
+                {allSpecialties.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
               </SelectContent>
             </Select>
             <Select value={city} onValueChange={setCity}>
-              <SelectTrigger className="w-full sm:w-48">
-                <SelectValue placeholder="City" />
-              </SelectTrigger>
+              <SelectTrigger className="w-full sm:w-48"><SelectValue placeholder="City" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Cities</SelectItem>
-                {allCities.map((c) => (
-                  <SelectItem key={c} value={c}>{c}</SelectItem>
-                ))}
+                {allCities.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
 
-          {/* Results */}
           {filtered.length === 0 ? (
             <div className="glass-card p-12 text-center">
               <Dumbbell size={48} className="mx-auto mb-4 text-muted-foreground/30" />
@@ -100,14 +87,7 @@ const FindTrainer = () => {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filtered.map((t, i) => (
-                <motion.div
-                  key={t.id}
-                  initial="hidden"
-                  animate="visible"
-                  variants={fadeUp}
-                  custom={i}
-                  className="glass-card p-6 hover-lift"
-                >
+                <motion.div key={t.id} initial="hidden" animate="visible" variants={fadeUp} custom={i} className="glass-card p-6 hover-lift">
                   <div className="flex items-start justify-between mb-3">
                     <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center text-xl font-bold text-primary">
                       {t.name.split(" ").map((n) => n[0]).join("")}
@@ -143,10 +123,19 @@ const FindTrainer = () => {
                   </div>
 
                   <div className="mt-3 flex gap-2">
-                    <Button size="sm" className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/90 text-xs">
+                    <Button
+                      size="sm"
+                      className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/90 text-xs"
+                      onClick={() => setBookTrainer(t)}
+                    >
                       Book Session
                     </Button>
-                    <Button size="sm" variant="outline" className="text-xs">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="text-xs"
+                      onClick={() => setProfileTrainer(t)}
+                    >
                       View Profile
                     </Button>
                   </div>
@@ -160,6 +149,9 @@ const FindTrainer = () => {
           </div>
         </div>
       </section>
+
+      <TrainerProfileDialog trainer={profileTrainer} open={!!profileTrainer} onOpenChange={(v) => !v && setProfileTrainer(null)} />
+      <BookSessionDialog trainer={bookTrainer} open={!!bookTrainer} onOpenChange={(v) => !v && setBookTrainer(null)} />
     </div>
   );
 };

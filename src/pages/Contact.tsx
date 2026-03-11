@@ -1,14 +1,29 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const { toast } = useToast();
   const [form, setForm] = useState({ name: "", email: "", type: "Client", subject: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitting(true);
+    const { error } = await supabase.from("contact_messages").insert({
+      name: form.name,
+      email: form.email,
+      type: form.type,
+      subject: form.subject,
+      message: form.message,
+    });
+    setSubmitting(false);
+    if (error) {
+      toast({ title: "Error", description: "Failed to send message. Please try again.", variant: "destructive" });
+      return;
+    }
     toast({ title: "Message Sent!", description: "Our team will respond within 24–48 hours." });
     setForm({ name: "", email: "", type: "Client", subject: "", message: "" });
   };
@@ -78,18 +93,18 @@ const Contact = () => {
                   placeholder="Tell us more..."
                 />
               </div>
-              <button type="submit" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary text-secondary-foreground font-semibold hover:opacity-90 transition-opacity">
-                <Send size={16} /> Send Message
+              <button type="submit" disabled={submitting} className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-secondary text-secondary-foreground font-semibold hover:opacity-90 transition-opacity disabled:opacity-50">
+                {submitting ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />} Send Message
               </button>
             </form>
           </div>
 
           <div className="space-y-6">
             {[
-              { icon: Mail, label: "Email", value: "hello@fitnest.com" },
-              { icon: Phone, label: "Phone", value: "+1 (555) 123-4567" },
-              { icon: MapPin, label: "Address", value: "123 Fitness Ave, New York, NY" },
-              { icon: Clock, label: "Hours", value: "Mon–Fri, 9AM–6PM EST" },
+              { icon: Mail, label: "Email", value: "9987501047shu@gmail.com" },
+              { icon: Phone, label: "Phone", value: "+91 9987501047" },
+              { icon: MapPin, label: "Address", value: "Borivali East, Mumbai 400066" },
+              { icon: Clock, label: "Hours", value: "Mon–Fri, 9AM–6PM IST" },
             ].map((c) => (
               <div key={c.label} className="glass-card p-5 flex items-start gap-4">
                 <div className="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0">

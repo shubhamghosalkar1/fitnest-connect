@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import {
   ShieldCheck, Users, AlertTriangle, CheckCircle2,
-  Clock, XCircle, Eye, Search, Trash2, Ban, Building2, Loader2
+  Clock, XCircle, Eye, Search, Trash2, Ban, Building2, Loader2, Mail, MessageSquare
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -36,18 +36,21 @@ const Admin = () => {
   const { signOut } = useAuth();
   const [trainers, setTrainers] = useState<any[]>([]);
   const [gyms, setGyms] = useState<any[]>([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<string | null>(null);
   const [verifying, setVerifying] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
-    const [trainerRes, gymRes] = await Promise.all([
+    const [trainerRes, gymRes, msgRes] = await Promise.all([
       supabase.from("trainers").select("*").order("created_at", { ascending: false }),
       supabase.from("gyms").select("*").order("created_at", { ascending: false }),
+      supabase.from("contact_messages").select("*").order("created_at", { ascending: false }),
     ]);
     setTrainers(trainerRes.data || []);
     setGyms(gymRes.data || []);
+    setMessages(msgRes.data || []);
     setLoading(false);
   };
 
@@ -64,6 +67,8 @@ const Admin = () => {
     verifiedTrainers: trainers.filter(t => t.cert_status === "verified" && t.id_status === "verified").length,
     pendingTrainers: trainers.filter(t => t.cert_status === "pending" || t.id_status === "pending").length,
     totalGyms: gyms.length,
+    totalMessages: messages.length,
+    unreadMessages: messages.filter(m => !m.is_read).length,
   };
 
   const handleDeleteTrainer = async (id: string, name: string) => {
@@ -115,6 +120,17 @@ const Admin = () => {
     fetchData();
   };
 
+  const handleMarkRead = async (id: string) => {
+    await supabase.from("contact_messages").update({ is_read: true } as any).eq("id", id);
+    fetchData();
+  };
+
+  const handleDeleteMessage = async (id: string) => {
+    await supabase.from("contact_messages").delete().eq("id", id);
+    toast.success("Message deleted");
+    fetchData();
+  };
+
   if (loading) {
     return <div className="min-h-[60vh] flex items-center justify-center text-muted-foreground">Loading admin data...</div>;
   }
@@ -137,12 +153,13 @@ const Admin = () => {
       <section className="section-padding pt-8">
         <div className="container-tight">
           {/* Stats */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
             {[
               { icon: Users, label: "Total Trainers", value: stats.totalTrainers, color: "text-primary" },
               { icon: CheckCircle2, label: "Verified", value: stats.verifiedTrainers, color: "text-secondary" },
               { icon: Clock, label: "Pending", value: stats.pendingTrainers, color: "text-primary" },
               { icon: Building2, label: "Gyms", value: stats.totalGyms, color: "text-primary" },
+              { icon: MessageSquare, label: "Messages", value: `${stats.unreadMessages}/${stats.totalMessages}`, color: "text-secondary" },
             ].map(s => (
               <div key={s.label} className="glass-card p-5 hover-lift">
                 <s.icon size={20} className={s.color} />
@@ -156,6 +173,14 @@ const Admin = () => {
             <TabsList>
               <TabsTrigger value="trainers">Trainers</TabsTrigger>
               <TabsTrigger value="gyms">Gyms</TabsTrigger>
+              <TabsTrigger value="messages" className="relative">
+                Messages
+                {stats.unreadMessages > 0 && (
+                  <span className="ml-1.5 inline-flex items-center justify-center w-5 h-5 rounded-full bg-secondary text-secondary-foreground text-[10px] font-bold">
+                    {stats.unreadMessages}
+                  </span>
+                )}
+              </TabsTrigger>
             </TabsList>
 
             {/* TRAINERS TAB */}
@@ -379,6 +404,66 @@ const Admin = () => {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            </TabsContent>
+
+            {/* MESSAGES TAB */}
+            <TabsContent value="messages">
+              <div className="glass-card p-6">
+                <h2 className="font-bold text-lg mb-4">Contact Messages</h2>
+                {messages.length === 0 ? (
+                  <div className="py-12 text-center text-muted-foreground">
+                    <Mail size={32} className="mx-auto mb-3 opacity-30" />
+                    <p className="text-sm">No messages yet.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {messages.map(m => (
+                      <div key={m.id} className={`p-4 rounded-lg border transition-colors ${m.is_read ? "border-border bg-background" : "border-secondary/30 bg-secondary/5"}`}>
+                        <div className="flex items-start justify-between gap-4">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="font-semibold text-sm">{m.name}</span>
+                              <span className="text-muted-foreground text-xs">({m.type})</span>
+                              {!m.is_read && <span className="px-1.5 py-0.5 rounded-full bg-secondary text-secondary-foreground text-[10px] font-bold">New</span>}
+                            </div>
+                            <div className="text-muted-foreground text-xs mb-1">{m.email}</div>
+                            <div className="font-medium text-sm mb-1">{m.subject}</div>
+                            <p className="text-muted-foreground text-sm">{m.message}</p>
+                            <div className="text-muted-foreground text-[10px] mt-2">{new Date(m.created_at).toLocaleString()}</div>
+                          </div>
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            {!m.is_read && (
+                              <button
+                                onClick={() => handleMarkRead(m.id)}
+                                className="px-3 py-1.5 rounded-lg bg-secondary/10 text-secondary text-xs font-semibold hover:bg-secondary/20 transition-colors"
+                              >
+                                Mark Read
+                              </button>
+                            )}
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <button className="px-3 py-1.5 rounded-lg bg-destructive/10 text-destructive text-xs font-semibold hover:bg-destructive/20 transition-colors">
+                                  <Trash2 size={12} />
+                                </button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Delete Message</AlertDialogTitle>
+                                  <AlertDialogDescription>Remove this message from <strong>{m.name}</strong>?</AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => handleDeleteMessage(m.id)} className="bg-destructive text-destructive-foreground">Delete</AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </TabsContent>
           </Tabs>
