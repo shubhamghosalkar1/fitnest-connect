@@ -18,6 +18,8 @@ import TrainerRegistration from "./pages/TrainerRegistration";
 import FindTrainer from "./pages/FindTrainer";
 import GymRegistration from "./pages/GymRegistration";
 import FindGym from "./pages/FindGym";
+import TrainerLogin from "./pages/TrainerLogin";
+import TrainerDashboard from "./pages/TrainerDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -48,6 +50,8 @@ const App = () => (
               <Route path="/find-trainer" element={<FindTrainer />} />
               <Route path="/register-gym" element={<GymRegistration />} />
               <Route path="/find-gym" element={<FindGym />} />
+              <Route path="/trainer-login" element={<TrainerLogin />} />
+              <Route path="/trainer-dashboard" element={<TrainerDashboard />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/admin" element={<ProtectedAdmin />} />
               <Route path="*" element={<NotFound />} />
