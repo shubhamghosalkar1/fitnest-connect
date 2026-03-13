@@ -18,6 +18,8 @@ import TrainerRegistration from "./pages/TrainerRegistration";
 import FindTrainer from "./pages/FindTrainer";
 import GymRegistration from "./pages/GymRegistration";
 import FindGym from "./pages/FindGym";
+import TrainerLogin from "./pages/TrainerLogin";
+import TrainerDashboard from "./pages/TrainerDashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
