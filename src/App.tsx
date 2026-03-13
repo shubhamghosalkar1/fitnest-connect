@@ -50,6 +50,8 @@ const App = () => (
               <Route path="/find-trainer" element={<FindTrainer />} />
               <Route path="/register-gym" element={<GymRegistration />} />
               <Route path="/find-gym" element={<FindGym />} />
+              <Route path="/trainer-login" element={<TrainerLogin />} />
+              <Route path="/trainer-dashboard" element={<TrainerDashboard />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/admin" element={<ProtectedAdmin />} />
               <Route path="*" element={<NotFound />} />
