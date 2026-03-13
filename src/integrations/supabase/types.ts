@@ -14,6 +14,98 @@ export type Database = {
   }
   public: {
     Tables: {
+      client_progress: {
+        Row: {
+          arms: number | null
+          body_fat: number | null
+          chest: number | null
+          client_id: string
+          created_at: string
+          date: string
+          hips: number | null
+          id: string
+          notes: string | null
+          waist: number | null
+          weight: number | null
+        }
+        Insert: {
+          arms?: number | null
+          body_fat?: number | null
+          chest?: number | null
+          client_id: string
+          created_at?: string
+          date?: string
+          hips?: number | null
+          id?: string
+          notes?: string | null
+          waist?: number | null
+          weight?: number | null
+        }
+        Update: {
+          arms?: number | null
+          body_fat?: number | null
+          chest?: number | null
+          client_id?: string
+          created_at?: string
+          date?: string
+          hips?: number | null
+          id?: string
+          notes?: string | null
+          waist?: number | null
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "client_progress_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      clients: {
+        Row: {
+          age: string | null
+          created_at: string
+          email: string | null
+          gender: string | null
+          goals: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          status: string
+          trainer_id: string
+        }
+        Insert: {
+          age?: string | null
+          created_at?: string
+          email?: string | null
+          gender?: string | null
+          goals?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          status?: string
+          trainer_id: string
+        }
+        Update: {
+          age?: string | null
+          created_at?: string
+          email?: string | null
+          gender?: string | null
+          goals?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          status?: string
+          trainer_id?: string
+        }
+        Relationships: []
+      }
       contact_messages: {
         Row: {
           created_at: string
@@ -121,6 +213,50 @@ export type Database = {
           working_days?: string[]
         }
         Relationships: []
+      }
+      session_logs: {
+        Row: {
+          client_id: string
+          created_at: string
+          date: string
+          duration: string | null
+          exercises: string | null
+          id: string
+          notes: string | null
+          session_type: string
+          trainer_id: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          date?: string
+          duration?: string | null
+          exercises?: string | null
+          id?: string
+          notes?: string | null
+          session_type?: string
+          trainer_id: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          date?: string
+          duration?: string | null
+          exercises?: string | null
+          id?: string
+          notes?: string | null
+          session_type?: string
+          trainer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_logs_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       trainers: {
         Row: {
@@ -242,11 +378,59 @@ export type Database = {
         }
         Relationships: []
       }
+      workout_plans: {
+        Row: {
+          client_id: string
+          created_at: string
+          description: string | null
+          duration_weeks: string | null
+          exercises: Json
+          frequency: string | null
+          id: string
+          name: string
+          status: string
+          trainer_id: string
+        }
+        Insert: {
+          client_id: string
+          created_at?: string
+          description?: string | null
+          duration_weeks?: string | null
+          exercises?: Json
+          frequency?: string | null
+          id?: string
+          name: string
+          status?: string
+          trainer_id: string
+        }
+        Update: {
+          client_id?: string
+          created_at?: string
+          description?: string | null
+          duration_weeks?: string | null
+          exercises?: Json
+          frequency?: string | null
+          id?: string
+          name?: string
+          status?: string
+          trainer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workout_plans_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      get_trainer_id_by_email: { Args: never; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
